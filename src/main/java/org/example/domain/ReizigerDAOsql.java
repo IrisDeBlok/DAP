@@ -13,9 +13,17 @@ public class ReizigerDAOsql implements ReizigerDAO {
     PreparedStatement pstmt = null;
     ResultSet rs = null;
 
+    private static final String URL = "jdbc:postgresql://127.0.0.1:5432/demoDAP";
+    private static final String USER = "postgres";
+    private static final String PASSWORD = "Koeskoes123123!";
+
+    public static Connection getConnection() throws SQLException{
+        return DriverManager.getConnection(URL, USER, PASSWORD);
+    }
+
     @Override
     public boolean save(Reiziger reiziger) throws SQLException  {
-        c = DatabaseConnection.getConnection();
+        Connection c = getConnection();
         String query = "INSERT INTO reiziger (reiziger_id, voorletters, tussenvoegsel, achternaam, geboortedatum) VALUES (?, ?, ?, ?, ?)";
         pstmt = c.prepareStatement(query);
         c.setAutoCommit(false);
@@ -32,7 +40,7 @@ public class ReizigerDAOsql implements ReizigerDAO {
 
     @Override
     public boolean delete(Reiziger reiziger) throws SQLException {
-        c = DatabaseConnection.getConnection();
+        Connection c = getConnection();
         String query = "DELETE FROM reiziger WHERE reiziger_id = ?";
         pstmt = c.prepareStatement(query);
         c.setAutoCommit(false);
@@ -46,7 +54,7 @@ public class ReizigerDAOsql implements ReizigerDAO {
 
     @Override
     public boolean update(Reiziger reiziger) throws SQLException  {
-        c = DatabaseConnection.getConnection();
+        Connection c = getConnection();
         String query = "UPDATE reiziger SET voorletters = ?, tussenvoegsel = ?, achternaam = ?, geboortedatum = ? WHERE reiziger_id = ?";
         pstmt = c.prepareStatement(query);
         c.setAutoCommit(false);
@@ -64,7 +72,7 @@ public class ReizigerDAOsql implements ReizigerDAO {
     @Override
     public List<Reiziger> findAll() throws SQLException  {
         List<Reiziger> reizigers = new ArrayList<>();
-        c = DatabaseConnection.getConnection();
+        Connection c = getConnection();
         String query = "SELECT * FROM reiziger";
         pstmt = c.prepareStatement(query);
         c.setAutoCommit(false);
@@ -85,7 +93,7 @@ public class ReizigerDAOsql implements ReizigerDAO {
     @Override
     public List<Reiziger> findByGbDatum(Date date) throws SQLException  {
         List<Reiziger> reizigers = new ArrayList<>();
-        c = DatabaseConnection.getConnection();
+        Connection c = getConnection();
         String query = "SELECT * FROM reiziger WHERE geboortedatum = ?";
         pstmt = c.prepareStatement(query);
         c.setAutoCommit(false);
@@ -108,7 +116,7 @@ public class ReizigerDAOsql implements ReizigerDAO {
 
     @Override
     public Reiziger findById(int id) throws SQLException  {
-        c = DatabaseConnection.getConnection();
+        Connection c = getConnection();
         String query = "SELECT * FROM reiziger WHERE reiziger_id = ?";
         pstmt = c.prepareStatement(query);
         c.setAutoCommit(false);
