@@ -2,65 +2,58 @@ package org.example;
 
 import org.example.database.DatabaseConnection;
 import org.example.domain.Reiziger;
+import org.example.domain.ReizigerDAOsql;
+import org.example.domain.interfaces.ReizigerDAO;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.*;
 
 public class Main {
+    private static final String URL = "jdbc:postgresql://127.0.0.1:5432/demoDAP";
+    private static final String USER = "postgres";
+    private static final String PASSWORD = "Koeskoes123123!";
+
+    public static Connection getConnection() throws SQLException{
+        return DriverManager.getConnection(URL, USER, PASSWORD);
+    }
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        Connection c = null;
+        Connection c = getConnection();
+        testReiziger();
+        closeConnection(c);
+    }
+
+    public static void testReiziger() throws SQLException {
+        Connection c = getConnection();
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        try {
-            c = DatabaseConnection.getConnection();
-            c.setAutoCommit(false);
 
-            String sqlSelect = "SELECT * FROM reiziger";
-            pstmt = c.prepareStatement(sqlSelect);
-            rs = pstmt.executeQuery();
+        String sqlSelect = "SELECT * FROM reiziger";
+        pstmt = c.prepareStatement(sqlSelect);
+        rs = pstmt.executeQuery();
 
-            List<String> reizigers = new ArrayList<>();
-            int count = 1;
+        System.out.println("Alle reizigers:");
 
-            System.out.println("Alle reizigers:");
+        while (rs.next()) {
+            Long id = rs.getLong("reiziger_id");
+            String voorletters = rs.getString("voorletters");
+            String tussenvoegsel = rs.getString("tussenvoegsel");
+            String achternaam = rs.getString("achternaam");
+            String geboortedatum = rs.getString("geboortedatum");
 
-            while (rs.next()) {
-                int id = rs.getInt("reiziger_id");
-                String voorletters = rs.getString("voorletters");
-                String tussenvoegsel = rs.getString("tussenvoegsel");
-                String achternaam = rs.getString("achternaam");
-                String geboortedatum = rs.getString("geboortedatum");
-
-                String formattedReiziger;
-                if(tussenvoegsel != null) {
-                    formattedReiziger = "#" + id + " " + voorletters + " " + tussenvoegsel + " " + achternaam + " (" + geboortedatum + ")";
-                } else {
-                    formattedReiziger = "#" + id + " " + voorletters + " " + achternaam + " (" + geboortedatum + ")";
-                }
-
-                System.out.println(formattedReiziger);
-
-                count++;
+            String formattedReiziger;
+            if(tussenvoegsel != null) {
+                formattedReiziger = "#" + id + " " + voorletters + " " + tussenvoegsel + " " + achternaam + " (" + geboortedatum + ")";
+            } else {
+                formattedReiziger = "#" + id + " " + voorletters + " " + achternaam + " (" + geboortedatum + ")";
             }
 
-            for (String reiziger : reizigers) {
-                System.out.println(reiziger);
-            }
-
-        }  catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (rs != null) rs.close();
-                if (pstmt != null) pstmt.close();
-                if (c != null) c.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            System.out.println(formattedReiziger);
         }
+
+        rs.close();
+        pstmt.close();
+    }
+
+    public static void closeConnection(Connection c) throws SQLException {
+        c.close();
     }
 }

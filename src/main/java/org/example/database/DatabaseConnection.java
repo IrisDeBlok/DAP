@@ -10,10 +10,7 @@ public class DatabaseConnection {
     private static final String USER = "postgres";
     private static final String PASSWORD = "Koeskoes123123!";
 
-    public static Connection getConnection() throws SQLException, ClassNotFoundException {
-        // maven directory
-        Class.forName("org.postgresql.Driver");
-        // maakt de connenctie met de db
+    public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 }

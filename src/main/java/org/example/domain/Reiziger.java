@@ -3,27 +3,27 @@ package org.example.domain;
 import java.sql.Date;
 
 public class Reiziger {
-    private int reiziger_id;
+    private Long id;
     private String voorletters;
     private String tussenvoegsel;
     private String achternaam;
     private Date geboortedatum;
 
     public Reiziger() {}
-    public Reiziger(int rid, String voorletters, String tussenvoegsel, String achternaam, Date geboortedatum) {
-        this.reiziger_id = rid;
+    public Reiziger(Long id, String voorletters, String tussenvoegsel, String achternaam, Date geboortedatum) {
+        this.id = id;
         this.voorletters = voorletters;
         this.tussenvoegsel = tussenvoegsel;
         this.achternaam = achternaam;
         this.geboortedatum = geboortedatum;
     }
 
-    public void setReizigerId(int rid) {
-        this.reiziger_id = rid;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public int getReizigerId() {
-        return reiziger_id;
+    public Long getId() {
+        return id;
     }
 
     public void setVoorletters(String voorletters) {
