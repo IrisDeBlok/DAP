@@ -1,7 +1,6 @@
 package org.example.domain;
 
-import jakarta.persistence.*;
-
+import javax.persistence.*;
 import java.sql.Date;
 
 @Entity(name = "Reiziger")
