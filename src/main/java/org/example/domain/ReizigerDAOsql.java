@@ -1,6 +1,5 @@
 package org.example.domain;
 
-import org.example.database.DatabaseConnection;
 import org.example.domain.interfaces.ReizigerDAO;
 
 import java.sql.*;
@@ -9,7 +8,6 @@ import java.sql.Date;
 import java.util.List;
 
 public class ReizigerDAOsql implements ReizigerDAO {
-    Connection c = null;
     PreparedStatement pstmt = null;
     ResultSet rs = null;
 

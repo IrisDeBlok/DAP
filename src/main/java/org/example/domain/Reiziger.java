@@ -1,12 +1,23 @@
 package org.example.domain;
 
+import jakarta.persistence.*;
+
 import java.sql.Date;
 
+@Entity(name = "Reiziger")
+@Table(name = "reiziger")
 public class Reiziger {
+    @Id
+    @GeneratedValue
+    @Column(name = "reiziger_id")
     private Long id;
+    @Column(name = "voorletters")
     private String voorletters;
+    @Column(name = "tussenvoegsel")
     private String tussenvoegsel;
+    @Column(name = "achternaam")
     private String achternaam;
+    @Column(name = "geboortedatum")
     private Date geboortedatum;
 
     public Reiziger() {}
