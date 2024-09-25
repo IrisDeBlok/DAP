@@ -33,21 +33,17 @@ public class Main {
         System.out.println("Alle reizigers:");
 
         while (rs.next()) {
-            Long id = rs.getLong("reiziger_id");
+            Long id = (long) rs.getInt("reiziger_id");
             String voorletters = rs.getString("voorletters");
             String tussenvoegsel = rs.getString("tussenvoegsel");
             String achternaam = rs.getString("achternaam");
-            String geboortedatum = rs.getString("geboortedatum");
+            Date geboortedatum = rs.getDate("geboortedatum");
 
-            String formattedReiziger;
-            if(tussenvoegsel != null) {
-                formattedReiziger = "#" + id + " " + voorletters + " " + tussenvoegsel + " " + achternaam + " (" + geboortedatum + ")";
-            } else {
-                formattedReiziger = "#" + id + " " + voorletters + " " + achternaam + " (" + geboortedatum + ")";
-            }
+            Reiziger reiziger = new Reiziger(id, voorletters, tussenvoegsel, achternaam, geboortedatum);
 
-            System.out.println(formattedReiziger);
+            System.out.println(reiziger.toString());
         }
+
 
         rs.close();
         pstmt.close();
