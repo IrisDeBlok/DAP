@@ -1,22 +1,10 @@
 package org.example.domain;
 
-import javax.persistence.*;
-import java.sql.Date;
-
-@Entity(name = "Adres")
-@Table(name = "adres")
 public class Adres {
-    @Id
-    @GeneratedValue
-    @Column(name = "adres_id")
     private Long id;
-    @Column(name = "postcode")
     private String postcode;
-    @Column(name = "huisnummer")
     private String huisnummer;
-    @Column(name = "straat")
     private String straat;
-    @Column(name = "woonplaats")
     private String woonplaats;
 
     public Adres() {}

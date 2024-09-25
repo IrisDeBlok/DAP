@@ -31,8 +31,6 @@ public class Main {
 
         System.out.println("Alle reizigers:");
 
-        AdresDAOPsql adresDao = new AdresDAOPsql();
-
         while (rs.next()) {
             Long id = (long) rs.getInt("reiziger_id");
             String voorletters = rs.getString("voorletters");
@@ -41,9 +39,8 @@ public class Main {
             Date geboortedatum = rs.getDate("geboortedatum");
 
             Reiziger reiziger = new Reiziger(id, voorletters, tussenvoegsel, achternaam, geboortedatum);
-            Adres adres = adresDao.findByReiziger(reiziger);
 
-            System.out.println("Reiziger {" + reiziger.toString() + ", Adres {" + (adres != null ? adres.toString() : "Geen adres gevonden") + "}");
+            System.out.println(reiziger.toString());
         }
 
         rs.close();

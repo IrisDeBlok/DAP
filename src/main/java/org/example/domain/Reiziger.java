@@ -1,6 +1,9 @@
 package org.example.domain;
 
+import org.example.DAO.AdresDAOPsql;
+
 import java.sql.Date;
+import java.sql.SQLException;
 
 public class Reiziger {
     private Long id;
@@ -8,6 +11,7 @@ public class Reiziger {
     private String tussenvoegsel;
     private String achternaam;
     private Date geboortedatum;
+    private Adres adres;
 
     public Reiziger() {}
     public Reiziger(Long id, String voorletters, String tussenvoegsel, String achternaam, Date geboortedatum) {
@@ -60,11 +64,20 @@ public class Reiziger {
 
     @Override
     public String toString() {
-        return String.format("#%d %s%s %s, geb. %s",
+        AdresDAOPsql adresDao = new AdresDAOPsql();
+        Adres adres = null;
+        try {
+            adres = adresDao.findByReiziger(this);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return String.format("#%d %s%s %s, geb. %s, Adres: %s",
                 id,
                 voorletters,
                 (tussenvoegsel != null && !tussenvoegsel.isEmpty() ? " " + tussenvoegsel : ""),
                 achternaam,
-                geboortedatum.toString());
+                geboortedatum.toString(),
+                (adres != null) ? adres.toString() : "Geen adres gevonden");
     }
 }
