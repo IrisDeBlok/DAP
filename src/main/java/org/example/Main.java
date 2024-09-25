@@ -1,9 +1,8 @@
 package org.example;
 
-import org.example.database.DatabaseConnection;
+import org.example.DAO.AdresDAOPsql;
+import org.example.domain.Adres;
 import org.example.domain.Reiziger;
-import org.example.domain.ReizigerDAOsql;
-import org.example.domain.interfaces.ReizigerDAO;
 
 import java.sql.*;
 
@@ -15,7 +14,7 @@ public class Main {
     public static Connection getConnection() throws SQLException{
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+    public static void main(String[] args) throws SQLException {
         Connection c = getConnection();
         testReiziger();
         closeConnection(c);
@@ -32,6 +31,8 @@ public class Main {
 
         System.out.println("Alle reizigers:");
 
+        AdresDAOPsql adresDao = new AdresDAOPsql();
+
         while (rs.next()) {
             Long id = (long) rs.getInt("reiziger_id");
             String voorletters = rs.getString("voorletters");
@@ -40,8 +41,9 @@ public class Main {
             Date geboortedatum = rs.getDate("geboortedatum");
 
             Reiziger reiziger = new Reiziger(id, voorletters, tussenvoegsel, achternaam, geboortedatum);
+            Adres adres = adresDao.findByReiziger(reiziger);
 
-            System.out.println(reiziger.toString());
+            System.out.println("Reiziger {" + reiziger.toString() + ", Adres {" + (adres != null ? adres.toString() : "Geen adres gevonden") + "}");
         }
 
         rs.close();

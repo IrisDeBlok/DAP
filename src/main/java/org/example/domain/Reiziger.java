@@ -60,13 +60,11 @@ public class Reiziger {
 
     @Override
     public String toString() {
-        String formattedReiziger;
-        if(tussenvoegsel != null) {
-            formattedReiziger = voorletters + " " + tussenvoegsel + " " + achternaam + " (" + geboortedatum + ")";
-        } else {
-            formattedReiziger = voorletters + " " + achternaam + " (" + geboortedatum + ")";
-        }
-
-        return formattedReiziger;
+        return String.format("#%d %s%s %s, geb. %s",
+                id,
+                voorletters,
+                (tussenvoegsel != null && !tussenvoegsel.isEmpty() ? " " + tussenvoegsel : ""),
+                achternaam,
+                geboortedatum.toString());
     }
 }
