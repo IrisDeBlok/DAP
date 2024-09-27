@@ -1,7 +1,12 @@
 package org.example.domain;
 
+import org.example.DAO.AdresDAOPsql;
+import org.example.DAO.OVChipkaartDAOHibernate;
+
 import javax.persistence.*;
 import java.sql.Date;
+import java.sql.SQLException;
+import java.util.Set;
 
 @Entity(name = "Reiziger")
 @Table(name = "reiziger")
@@ -18,6 +23,11 @@ public class Reiziger {
     private String achternaam;
     @Column(name = "geboortedatum")
     private Date geboortedatum;
+    @OneToOne
+    @JoinColumn(name = "adres_id")
+    private Adres adres;
+    @OneToMany(mappedBy="ovchipkaart")
+    private Set<OVChipkaart> ovChipkaart;
 
     public Reiziger() {}
     public Reiziger(Long id, String voorletters, String tussenvoegsel, String achternaam, Date geboortedatum) {
@@ -70,13 +80,20 @@ public class Reiziger {
 
     @Override
     public String toString() {
-        String formattedReiziger;
-        if(tussenvoegsel != null) {
-            formattedReiziger = voorletters + " " + tussenvoegsel + " " + achternaam + " (" + geboortedatum + ")";
-        } else {
-            formattedReiziger = voorletters + " " + achternaam + " (" + geboortedatum + ")";
+        AdresDAOPsql adresDao = new AdresDAOPsql();
+        Adres adres = null;
+        try {
+            adres = adresDao.findByReiziger(this);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
 
-        return formattedReiziger;
+        return String.format("#%d %s%s %s, geb. %s, Adres: %s",
+                id,
+                voorletters,
+                (tussenvoegsel != null && !tussenvoegsel.isEmpty() ? " " + tussenvoegsel : ""),
+                achternaam,
+                geboortedatum.toString(),
+                (adres != null) ? adres.toString() : "Geen adres gevonden");
     }
 }

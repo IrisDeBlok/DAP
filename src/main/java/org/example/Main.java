@@ -1,9 +1,6 @@
 package org.example;
 
-import org.example.database.DatabaseConnection;
 import org.example.domain.Reiziger;
-import org.example.domain.ReizigerDAOsql;
-import org.example.domain.interfaces.ReizigerDAO;
 
 import java.sql.*;
 
