@@ -3,11 +3,10 @@ package org.example.domain;
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity(name = "OVChipkaart")
+@Entity
 @Table(name = "ov_chipkaart")
 public class OVChipkaart {
     @Id
-    @GeneratedValue
     @Column(name = "kaart_nummer")
     private int kaart_nummer;
     @Column(name = "geldig_tot")
@@ -17,11 +16,17 @@ public class OVChipkaart {
     @Column(name = "saldo")
     private int saldo;
     @ManyToOne
-    @JoinColumn(name="reiziger_id", nullable=false)
+    @JoinColumn(name="reiziger_id")
     private Reiziger reiziger;
 
 
     public OVChipkaart() {}
+    public OVChipkaart(int kaartNummer, Date geldigTot, int klasse, int saldo) {
+        this.kaart_nummer = kaartNummer;
+        this.geldig_tot = geldigTot;
+        this.klasse = klasse;
+        this.saldo = saldo;
+    }
 
     public void setKaart_nummer(int kaart_nummer) {
         this.kaart_nummer = kaart_nummer;
@@ -53,4 +58,8 @@ public class OVChipkaart {
 
     public int getSaldo() {return saldo;}
 
+    @Override
+    public String toString() {
+        return String.format("#%d %tF %d %d", kaart_nummer, geldig_tot, klasse, saldo);
+    }
 }

@@ -12,7 +12,6 @@ import java.util.Set;
 @Table(name = "reiziger")
 public class Reiziger {
     @Id
-    @GeneratedValue
     @Column(name = "reiziger_id")
     private Long id;
     @Column(name = "voorletters")
@@ -23,11 +22,11 @@ public class Reiziger {
     private String achternaam;
     @Column(name = "geboortedatum")
     private Date geboortedatum;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "adres_id")
     private Adres adres;
-    @OneToMany(mappedBy="ovchipkaart")
-    private Set<OVChipkaart> ovChipkaart;
+    @OneToMany(mappedBy="reiziger")
+    private Set<OVChipkaart> ov_chipkaart;
 
     public Reiziger() {}
     public Reiziger(Long id, String voorletters, String tussenvoegsel, String achternaam, Date geboortedatum) {

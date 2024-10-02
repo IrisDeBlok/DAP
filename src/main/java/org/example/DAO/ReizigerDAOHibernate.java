@@ -1,6 +1,5 @@
 package org.example.DAO;
 
-import org.example.domain.Adres;
 import org.example.domain.Reiziger;
 import org.example.domain.interfaces.ReizigerDAO;
 
@@ -8,7 +7,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -16,8 +14,6 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
 public class ReizigerDAOHibernate implements ReizigerDAO {
-    PreparedStatement pstmt = null;
-    ResultSet rs = null;
     SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 
     private static final String URL = "jdbc:postgresql://127.0.0.1:5432/demoDAP";

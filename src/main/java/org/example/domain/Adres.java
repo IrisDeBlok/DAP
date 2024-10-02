@@ -7,7 +7,6 @@ import java.sql.Date;
 @Table(name = "adres")
 public class Adres {
     @Id
-    @GeneratedValue
     @Column(name = "adres_id")
     private Long id;
     @Column(name = "postcode")
@@ -18,7 +17,7 @@ public class Adres {
     private String straat;
     @Column(name = "woonplaats")
     private String woonplaats;
-    @OneToOne
+    @OneToOne(mappedBy = "adres")
     @JoinColumn(name = "reiziger_id")
     private Reiziger reiziger;
 
