@@ -22,50 +22,58 @@ public class AdresDAOPsql implements AdresDAO {
 
     @Override
     public boolean save(Adres adres) throws SQLException  {
-        Connection c = getConnection();
         String query = "INSERT INTO adres (adres_id, postcode, huisnummer, straat, woonplaats) VALUES (?, ?, ?, ?, ?)";
-        pstmt = c.prepareStatement(query);
-        c.setAutoCommit(false);
+        try (Connection c = getConnection(); PreparedStatement pstmt = c.prepareStatement(query)) {
+            c.setAutoCommit(false);
 
-        pstmt.setLong(1, adres.getId());
-        pstmt.setString(2, adres.getPostcode());
-        pstmt.setString(3, adres.getStraat());
-        pstmt.setString(4, adres.getHuisnummer());
-        pstmt.setString(5, adres.getWoonplaats());
+            pstmt.setLong(1, adres.getId());
+            pstmt.setString(2, adres.getPostcode());
+            pstmt.setString(3, adres.getStraat());
+            pstmt.setString(4, adres.getHuisnummer());
+            pstmt.setString(5, adres.getWoonplaats());
 
-        int rowsAffected = pstmt.executeUpdate();
-        return rowsAffected > 0;
+
+            int rowsAffected = pstmt.executeUpdate();
+            c.commit();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            throw new SQLException("Error saving Adres", e);
+        }
     }
 
     @Override
     public boolean delete(Adres adres) throws SQLException {
-        Connection c = getConnection();
         String query = "DELETE FROM adres WHERE adres_id = ?";
-        pstmt = c.prepareStatement(query);
-        c.setAutoCommit(false);
+        try (Connection c = getConnection(); PreparedStatement pstmt = c.prepareStatement(query)) {
+            c.setAutoCommit(false);
 
-        pstmt.setLong(1, adres.getId());
-        int deletedRows = pstmt.executeUpdate();
-        c.commit();
-
-        return deletedRows > 0;
+            pstmt.setLong(1, adres.getId());
+            int deletedRows = pstmt.executeUpdate();
+            c.commit();
+            return deletedRows > 0;
+        } catch (SQLException e) {
+            throw new SQLException("Error deleting Adres", e);
+        }
     }
 
     @Override
     public boolean update(Adres adres) throws SQLException  {
-        Connection c = getConnection();
         String query = "UPDATE adres SET postcode = ?, huisnummer = ?, straat = ?, woonplaats = ? WHERE adres_id = ?";
-        pstmt = c.prepareStatement(query);
-        c.setAutoCommit(false);
+        try (Connection c = getConnection(); PreparedStatement pstmt = c.prepareStatement(query)) {
+            c.setAutoCommit(false);
 
-        pstmt.setString(1, adres.getPostcode());
-        pstmt.setString(2, adres.getHuisnummer());
-        pstmt.setString(3, adres.getStraat());
-        pstmt.setString(4, adres.getWoonplaats());
-        pstmt.setLong(5, adres.getId());
+            pstmt.setString(1, adres.getPostcode());
+            pstmt.setString(2, adres.getHuisnummer());
+            pstmt.setString(3, adres.getStraat());
+            pstmt.setString(4, adres.getWoonplaats());
+            pstmt.setLong(5, adres.getId());
 
-        int updatedRows = pstmt.executeUpdate();
-        return updatedRows > 0;
+            int updatedRows = pstmt.executeUpdate();
+            c.commit();
+            return updatedRows > 0;
+        } catch (SQLException e) {
+            throw new SQLException("Error updating Adres", e);
+        }
     }
 
     @Override
@@ -102,6 +110,7 @@ public class AdresDAOPsql implements AdresDAO {
         String query = "SELECT * FROM adres";
         pstmt = c.prepareStatement(query);
         c.setAutoCommit(false);
+        rs = pstmt.executeQuery();
 
         while (rs.next()) {
             Adres adres = new Adres();

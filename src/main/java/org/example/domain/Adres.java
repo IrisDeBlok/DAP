@@ -8,6 +8,13 @@ public class Adres {
     private String woonplaats;
 
     public Adres() {}
+    public Adres(Long id, String postcode, String huisnummer, String straat, String woonplaats) {
+        this.id = id;
+        this.postcode = postcode;
+        this.huisnummer = huisnummer;
+        this.straat = straat;
+        this.woonplaats = woonplaats;
+    }
 
     public void setId(Long id) {
         this.id = id;

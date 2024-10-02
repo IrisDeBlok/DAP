@@ -23,50 +23,58 @@ public class ReizigerDAOsql implements ReizigerDAO {
 
     @Override
     public boolean save(Reiziger reiziger) throws SQLException  {
-        Connection c = getConnection();
         String query = "INSERT INTO reiziger (reiziger_id, voorletters, tussenvoegsel, achternaam, geboortedatum) VALUES (?, ?, ?, ?, ?)";
-        pstmt = c.prepareStatement(query);
-        c.setAutoCommit(false);
+        try (Connection c = getConnection(); PreparedStatement pstmt = c.prepareStatement(query)) {
+            c.setAutoCommit(false);
 
-        pstmt.setLong(1, reiziger.getId());
-        pstmt.setString(2, reiziger.getVoorletters());
-        pstmt.setString(3, reiziger.getTussenvoegsel());
-        pstmt.setString(4, reiziger.getAchternaam());
-        pstmt.setDate(5, reiziger.getGeboortedatum());
+            pstmt.setLong(1, reiziger.getId());
+            pstmt.setString(2, reiziger.getVoorletters());
+            pstmt.setString(3, reiziger.getTussenvoegsel());
+            pstmt.setString(4, reiziger.getAchternaam());
+            pstmt.setDate(5, reiziger.getGeboortedatum());
 
-        int rowsAffected = pstmt.executeUpdate();
-        return rowsAffected > 0;
+
+            int rowsAffected = pstmt.executeUpdate();
+            c.commit();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            throw new SQLException("Error saving Reiziger", e);
+        }
     }
 
     @Override
     public boolean delete(Reiziger reiziger) throws SQLException {
-        Connection c = getConnection();
         String query = "DELETE FROM reiziger WHERE reiziger_id = ?";
-        pstmt = c.prepareStatement(query);
-        c.setAutoCommit(false);
+        try (Connection c = getConnection(); PreparedStatement pstmt = c.prepareStatement(query)) {
+            c.setAutoCommit(false);
 
-        pstmt.setLong(1, reiziger.getId());
-        int deletedRows = pstmt.executeUpdate();
-        c.commit();
-
-        return deletedRows > 0;
+            pstmt.setLong(1, reiziger.getId());
+            int deletedRows = pstmt.executeUpdate();
+            c.commit();
+            return deletedRows > 0;
+        } catch (SQLException e) {
+            throw new SQLException("Error deleting Reiziger", e);
+        }
     }
 
     @Override
     public boolean update(Reiziger reiziger) throws SQLException  {
-        Connection c = getConnection();
         String query = "UPDATE reiziger SET voorletters = ?, tussenvoegsel = ?, achternaam = ?, geboortedatum = ? WHERE reiziger_id = ?";
-        pstmt = c.prepareStatement(query);
-        c.setAutoCommit(false);
+        try (Connection c = getConnection(); PreparedStatement pstmt = c.prepareStatement(query)) {
+            c.setAutoCommit(false);
 
-        pstmt.setString(1, reiziger.getVoorletters());
-        pstmt.setString(2, reiziger.getTussenvoegsel());
-        pstmt.setString(3, reiziger.getAchternaam());
-        pstmt.setDate(4, reiziger.getGeboortedatum());
-        pstmt.setLong(5, reiziger.getId());
+            pstmt.setString(1, reiziger.getVoorletters());
+            pstmt.setString(2, reiziger.getTussenvoegsel());
+            pstmt.setString(3, reiziger.getAchternaam());
+            pstmt.setDate(4, reiziger.getGeboortedatum());
+            pstmt.setLong(5, reiziger.getId());
 
-        int updatedRows = pstmt.executeUpdate();
-        return updatedRows > 0;
+            int updatedRows = pstmt.executeUpdate();
+            c.commit();
+            return updatedRows > 0;
+        } catch (SQLException e) {
+            throw new SQLException("Error updating Reiziger", e);
+        }
     }
 
     @Override
@@ -76,6 +84,7 @@ public class ReizigerDAOsql implements ReizigerDAO {
         String query = "SELECT * FROM reiziger";
         pstmt = c.prepareStatement(query);
         c.setAutoCommit(false);
+        rs = pstmt.executeQuery();
 
         while (rs.next()) {
             Reiziger reiziger = new Reiziger();

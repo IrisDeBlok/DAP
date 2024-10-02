@@ -11,6 +11,12 @@ public class OVChipkaart {
 
 
     public OVChipkaart() {}
+    public OVChipkaart(int kaartNummer, Date geldigTot, int klasse, int saldo) {
+        this.kaart_nummer = kaartNummer;
+        this.geldig_tot = geldigTot;
+        this.klasse = klasse;
+        this.saldo = saldo;
+    }
 
     public void setKaartNummer(int kaartNummer) {
         this.kaart_nummer = kaartNummer;
@@ -42,4 +48,8 @@ public class OVChipkaart {
 
     public int getSaldo() {return saldo;}
 
+    @Override
+    public String toString() {
+        return String.format("#%d %tF %d %d", kaart_nummer, geldig_tot, klasse, saldo);
+    }
 }

@@ -1,10 +1,17 @@
 package org.example;
 
 import org.example.DAO.AdresDAOPsql;
+import org.example.DAO.OVChipkaartDAOPsql;
+import org.example.DAO.ReizigerDAOsql;
 import org.example.domain.Adres;
+import org.example.domain.OVChipkaart;
 import org.example.domain.Reiziger;
+import org.example.domain.interfaces.AdresDAO;
+import org.example.domain.interfaces.OVChipkaartDAO;
+import org.example.domain.interfaces.ReizigerDAO;
 
 import java.sql.*;
+import java.util.List;
 
 public class Main {
     private static final String URL = "jdbc:postgresql://127.0.0.1:5432/demoDAP";
@@ -17,35 +24,103 @@ public class Main {
     public static void main(String[] args) throws SQLException {
         Connection c = getConnection();
         testReiziger();
+        testAdres();
+        testOV_chipkaart();
         closeConnection(c);
     }
 
-    public static void testReiziger() throws SQLException {
-        Connection c = getConnection();
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
+    private static void testReiziger() throws SQLException {
+        ReizigerDAO rdao = new ReizigerDAOsql();
+        System.out.println("\n---------- Test ReizigerDAO -------------");
 
-        String sqlSelect = "SELECT * FROM reiziger";
-        pstmt = c.prepareStatement(sqlSelect);
-        rs = pstmt.executeQuery();
-
-        System.out.println("Alle reizigers:");
-
-        while (rs.next()) {
-            Long id = (long) rs.getInt("reiziger_id");
-            String voorletters = rs.getString("voorletters");
-            String tussenvoegsel = rs.getString("tussenvoegsel");
-            String achternaam = rs.getString("achternaam");
-            Date geboortedatum = rs.getDate("geboortedatum");
-
-            Reiziger reiziger = new Reiziger(id, voorletters, tussenvoegsel, achternaam, geboortedatum);
-
-            System.out.println(reiziger.toString());
+        List<Reiziger> reizigers = rdao.findAll();
+        System.out.println("[Test] ReizigerDAO.findAll() geeft de volgende reizigers:");
+        for (Reiziger r : reizigers) {
+            System.out.println(r);
         }
+        System.out.println();
 
-        rs.close();
-        pstmt.close();
+        String gbdatum = "1981-03-14";
+        Reiziger save = new Reiziger(77L, "S", "", "Boers", java.sql.Date.valueOf(gbdatum));
+        System.out.print("[Test] Eerst " + reizigers.size() + " reizigers, na ReizigerDAO.save() ");
+        rdao.save(save);
+        reizigers = rdao.findAll();
+        System.out.println(reizigers.size() + " reizigers\n");
+
+        Reiziger update = new Reiziger(77L, "A", "", "Donk", java.sql.Date.valueOf(gbdatum));
+        System.out.print("[Test] Eerst " + reizigers.size() + " reizigers, na ReizigerDAO.update() ");
+        rdao.update(update);
+        reizigers = rdao.findAll();
+        System.out.println(reizigers.size() + " reizigers\n");
+
+        Reiziger delete = new Reiziger(77L, null, null, null, java.sql.Date.valueOf(gbdatum));
+        System.out.print("[Test] Eerst " + reizigers.size() + " reizigers, na ReizigerDAO.delete() ");
+        rdao.delete(delete);
+        reizigers = rdao.findAll();
+        System.out.println(reizigers.size() + " reizigers\n");
+
     }
+
+    public static void testAdres() throws SQLException {
+        AdresDAO adao = new AdresDAOPsql();
+        System.out.println("\n---------- Test AdresDAO -------------");
+
+        List<Adres> adres = adao.findAll();
+        System.out.println("[Test] AdresDAO.findAll() geeft de volgende adres:");
+        for (Adres a : adres) {
+            System.out.println(a);
+        }
+        System.out.println();
+
+        Adres save = new Adres(5L, "4000XM", "58A", "Oudenoord", "Utrecht");
+        System.out.print("[Test] Eerst " + adres.size() + " adres, na AdresDAO.save() ");
+        adao.save(save);
+        adres = adao.findAll();
+        System.out.println(adres.size() + " adres\n");
+
+        Adres update = new Adres(5L, "4000XM", "58A", "Nijenoord", "Utrecht");
+        System.out.print("[Test] Eerst " + adres.size() + " adres, na AdresDAO.update() ");
+        adao.update(update);
+        adres = adao.findAll();
+        System.out.println(adres.size() + " adres\n");
+
+        Adres delete = new Adres(5L, null, null, null, null);
+        System.out.print("[Test] Eerst " + adres.size() + " adres, na AdresDAO.delete() ");
+        adao.delete(delete);
+        adres = adao.findAll();
+        System.out.println(adres.size() + " adres\n");
+    }
+
+    public static void testOV_chipkaart() throws SQLException {
+        OVChipkaartDAO ovdao = new OVChipkaartDAOPsql();
+        System.out.println("\n---------- Test OVChipkaartDAO -------------");
+
+        List<OVChipkaart> ovchipkaart = ovdao.findAll();
+        System.out.println("[Test] OVChipkaartDAO.findAll() geeft de volgende ovchipkaart:");
+        for (OVChipkaart o : ovchipkaart) {
+            System.out.println(o);
+        }
+        System.out.println();
+
+        OVChipkaart save = new OVChipkaart(654321, java.sql.Date.valueOf("2027-07-01"), 2, 9);
+        System.out.print("[Test] Eerst " + ovchipkaart.size() + " ovchipkaart, na OVChipkaartDAO.save() ");
+        ovdao.save(save);
+        ovchipkaart = ovdao.findAll();
+        System.out.println(ovchipkaart.size() + " ovchipkaart\n");
+
+        OVChipkaart update = new OVChipkaart(654321, java.sql.Date.valueOf("2027-07-01"), 1, 21);
+        System.out.print("[Test] Eerst " + ovchipkaart.size() + " ovchipkaart, na OVChipkaartDAO.update() ");
+        ovdao.update(update);
+        ovchipkaart = ovdao.findAll();
+        System.out.println(ovchipkaart.size() + " ovchipkaart\n");
+
+        OVChipkaart delete = new OVChipkaart(654321, java.sql.Date.valueOf("2027-07-01"), 1, 21);
+        System.out.print("[Test] Eerst " + ovchipkaart.size() + " ovchipkaart, na OVChipkaartDAO.delete() ");
+        ovdao.delete(delete);
+        ovchipkaart = ovdao.findAll();
+        System.out.println(ovchipkaart.size() + " ovchipkaart\n");
+    }
+
 
     public static void closeConnection(Connection c) throws SQLException {
         c.close();

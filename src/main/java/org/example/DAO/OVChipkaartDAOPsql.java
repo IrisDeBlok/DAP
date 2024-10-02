@@ -26,48 +26,56 @@ public class OVChipkaartDAOPsql implements OVChipkaartDAO {
 
     @Override
     public boolean save(OVChipkaart ovChipkaart) throws SQLException {
-        Connection c = getConnection();
         String query = "INSERT INTO ov_chipkaart (kaart_nummer, geldig_tot, klasse, saldo) VALUES (?, ?, ?, ?)";
-        pstmt = c.prepareStatement(query);
-        c.setAutoCommit(false);
+        try (Connection c = getConnection(); PreparedStatement pstmt = c.prepareStatement(query)) {
+            c.setAutoCommit(false);
 
-        pstmt.setLong(1, ovChipkaart.getKaartNummer());
-        pstmt.setDate(2, ovChipkaart.getGeldigTot());
-        pstmt.setInt(3, ovChipkaart.getKlasse());
-        pstmt.setInt(4, ovChipkaart.getSaldo());
+            pstmt.setLong(1, ovChipkaart.getKaartNummer());
+            pstmt.setDate(2, ovChipkaart.getGeldigTot());
+            pstmt.setInt(3, ovChipkaart.getKlasse());
+            pstmt.setInt(4, ovChipkaart.getSaldo());
 
-        int rowsAffected = pstmt.executeUpdate();
-        return rowsAffected > 0;
+
+            int rowsAffected = pstmt.executeUpdate();
+            c.commit();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            throw new SQLException("Error saving OVChipkaart", e);
+        }
     }
 
     @Override
     public boolean delete(OVChipkaart ovChipkaart) throws SQLException {
-        Connection c = getConnection();
         String query = "DELETE FROM ov_chipkaart WHERE kaart_nummer = ?";
-        pstmt = c.prepareStatement(query);
-        c.setAutoCommit(false);
+        try (Connection c = getConnection(); PreparedStatement pstmt = c.prepareStatement(query)) {
+            c.setAutoCommit(false);
 
-        pstmt.setLong(1, ovChipkaart.getKaartNummer());
-        int deletedRows = pstmt.executeUpdate();
-        c.commit();
-
-        return deletedRows > 0;
+            pstmt.setLong(1, ovChipkaart.getKaartNummer());
+            int deletedRows = pstmt.executeUpdate();
+            c.commit();
+            return deletedRows > 0;
+        } catch (SQLException e) {
+            throw new SQLException("Error deleting OVChipkaart", e);
+        }
     }
 
     @Override
     public boolean update(OVChipkaart ovChipkaart) throws SQLException {
-        Connection c = getConnection();
         String query = "UPDATE ov_chipkaart SET geldig_tot = ?, klasse = ?, saldo = ? WHERE kaart_nummer = ?";
-        pstmt = c.prepareStatement(query);
-        c.setAutoCommit(false);
+        try (Connection c = getConnection(); PreparedStatement pstmt = c.prepareStatement(query)) {
+            c.setAutoCommit(false);
 
-        pstmt.setDate(1, ovChipkaart.getGeldigTot());
-        pstmt.setInt(2, ovChipkaart.getKlasse());
-        pstmt.setInt(3, ovChipkaart.getSaldo());
-        pstmt.setLong(4, ovChipkaart.getKaartNummer());
+            pstmt.setDate(1, ovChipkaart.getGeldigTot());
+            pstmt.setInt(2, ovChipkaart.getKlasse());
+            pstmt.setInt(3, ovChipkaart.getSaldo());
+            pstmt.setLong(4, ovChipkaart.getKaartNummer());
 
-        int updatedRows = pstmt.executeUpdate();
-        return updatedRows > 0;
+            int updatedRows = pstmt.executeUpdate();
+            c.commit();
+            return updatedRows > 0;
+        } catch (SQLException e) {
+            throw new SQLException("Error updating OVChipkaart", e);
+        }
     }
 
     @Override
@@ -103,6 +111,7 @@ public class OVChipkaartDAOPsql implements OVChipkaartDAO {
         String query = "SELECT * FROM ov_chipkaart";
         pstmt = c.prepareStatement(query);
         c.setAutoCommit(false);
+        rs = pstmt.executeQuery();
 
         while (rs.next()) {
             OVChipkaart ovchipkaart = new OVChipkaart();
