@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity(name = "OVChipkaart")
-@Table(name = "ovchipkaart")
+@Table(name = "ov_chipkaart")
 public class OVChipkaart {
     @Id
     @GeneratedValue

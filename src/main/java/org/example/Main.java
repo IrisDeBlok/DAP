@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.domain.Adres;
 import org.example.domain.Reiziger;
 
 import java.sql.*;
@@ -15,6 +16,7 @@ public class Main {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         Connection c = getConnection();
         testReiziger();
+        testAdres();
         closeConnection(c);
     }
 
@@ -39,6 +41,34 @@ public class Main {
             Reiziger reiziger = new Reiziger(id, voorletters, tussenvoegsel, achternaam, geboortedatum);
 
             System.out.println(reiziger.toString());
+        }
+
+
+        rs.close();
+        pstmt.close();
+    }
+
+    public static void testAdres() throws SQLException {
+        Connection c = getConnection();
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        String sqlSelect = "SELECT * FROM adres";
+        pstmt = c.prepareStatement(sqlSelect);
+        rs = pstmt.executeQuery();
+
+        System.out.println("Alle adressen:");
+
+        while (rs.next()) {
+            Long id = (long) rs.getInt("adres_id");
+            String postcode = rs.getString("postcode");
+            String huisnummer = rs.getString("huisnummer");
+            String straat = rs.getString("straat");
+            String woonplaats = rs.getString("woonplaats");
+
+            Adres adres = new Adres(id, postcode, huisnummer, straat, woonplaats);
+
+            System.out.println(adres.toString());
         }
 
 

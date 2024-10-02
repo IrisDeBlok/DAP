@@ -88,12 +88,11 @@ public class Reiziger {
             System.out.println(e.getMessage());
         }
 
-        return String.format("#%d %s%s %s, geb. %s, Adres: %s",
+        return String.format("#%d %s%s %s, geb. %s",
                 id,
                 voorletters,
                 (tussenvoegsel != null && !tussenvoegsel.isEmpty() ? " " + tussenvoegsel : ""),
                 achternaam,
-                geboortedatum.toString(),
-                (adres != null) ? adres.toString() : "Geen adres gevonden");
+                geboortedatum.toString());
     }
 }

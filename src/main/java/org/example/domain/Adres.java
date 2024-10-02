@@ -1,6 +1,7 @@
 package org.example.domain;
 
 import javax.persistence.*;
+import java.sql.Date;
 
 @Entity(name = "Adres")
 @Table(name = "adres")
@@ -22,6 +23,13 @@ public class Adres {
     private Reiziger reiziger;
 
     public Adres() {}
+    public Adres(Long id, String postcode, String huisnummer, String straat, String woonplaats) {
+        this.id = id;
+        this.postcode = postcode;
+        this.huisnummer = huisnummer;
+        this.straat = straat;
+        this.woonplaats = woonplaats;
+    }
 
     public void setId(Long id) {
         this.id = id;
