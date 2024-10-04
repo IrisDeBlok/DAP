@@ -90,6 +90,13 @@ public class Main {
         adao.delete(delete);
         adres = adao.findAll();
         System.out.println(adres.size() + " adres\n");
+
+        Reiziger reiziger = new Reiziger(2L, null, null, null , java.sql.Date.valueOf("1999-08-07"));
+
+        System.out.println("[Test] AdresDAO.findByReiziger() geeft de volgende adressen:");
+        Adres adressen = adao.findByReiziger(reiziger);
+
+        System.out.println(adressen);
     }
 
     public static void testOV_chipkaart() throws SQLException {
@@ -120,6 +127,13 @@ public class Main {
         ovdao.delete(delete);
         ovchipkaart = ovdao.findAll();
         System.out.println(ovchipkaart.size() + " ovchipkaart\n");
+
+        Reiziger reiziger = new Reiziger(6L, null, null, null , java.sql.Date.valueOf("1999-08-07"));
+
+        System.out.println("[Test] OVChipkaartDAO.findByReiziger() geeft de volgende producten:");
+        OVChipkaart foundChipkaarten = ovdao.findByReiziger(reiziger);
+
+        System.out.println(foundChipkaarten);
     }
 
     public static void testProduct() throws SQLException {
