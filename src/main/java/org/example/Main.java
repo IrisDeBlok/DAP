@@ -60,6 +60,17 @@ public class Main {
         reizigers = rdao.findAll();
         System.out.println(reizigers.size() + " reizigers\n");
 
+        System.out.println("[Test] ReizigerDAO.findById() geeft de volgende reiziger:");
+        Reiziger foundReiziger = rdao.findById(1L);
+
+        System.out.println(foundReiziger);
+
+        System.out.println("[Test] ReizigerDAO.findByGbDatum() geeft de volgende reizigers:");
+        List<Reiziger> foundReizigers = rdao.findByGbDatum(java.sql.Date.valueOf("1968-07-19"));
+
+        for(Reiziger r : foundReizigers) {
+            System.out.println(r);
+        }
     }
 
     public static void testAdres() throws SQLException {

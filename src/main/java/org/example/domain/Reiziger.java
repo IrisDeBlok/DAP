@@ -13,7 +13,7 @@ import java.util.Set;
 public class Reiziger {
     @Id
     @Column(name = "reiziger_id")
-    private Long id;
+    private Long reiziger_id;
     @Column(name = "voorletters")
     private String voorletters;
     @Column(name = "tussenvoegsel")
@@ -30,7 +30,7 @@ public class Reiziger {
 
     public Reiziger() {}
     public Reiziger(Long id, String voorletters, String tussenvoegsel, String achternaam, Date geboortedatum) {
-        this.id = id;
+        this.reiziger_id = id;
         this.voorletters = voorletters;
         this.tussenvoegsel = tussenvoegsel;
         this.achternaam = achternaam;
@@ -38,11 +38,11 @@ public class Reiziger {
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.reiziger_id = id;
     }
 
     public Long getId() {
-        return id;
+        return reiziger_id;
     }
 
     public void setVoorletters(String voorletters) {
@@ -88,7 +88,7 @@ public class Reiziger {
         }
 
         return String.format("#%d %s%s %s, geb. %s",
-                id,
+                reiziger_id,
                 voorletters,
                 (tussenvoegsel != null && !tussenvoegsel.isEmpty() ? " " + tussenvoegsel : ""),
                 achternaam,

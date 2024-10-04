@@ -111,12 +111,13 @@ public class ReizigerDAOHibernate implements ReizigerDAO {
     }
 
     @Override
-    public Reiziger findById(int id) throws SQLException  {
+    public Reiziger findById(long id) throws SQLException  {
         Transaction t = null;
         Reiziger reiziger = null;
 
         try (Session session = sessionFactory.openSession()) {
-            String hql = "FROM Reiziger WHERE id = :id";
+            t = session.beginTransaction();
+            String hql = "FROM Reiziger WHERE reiziger_id = :id";
             Query<Reiziger> query = session.createQuery(hql, Reiziger.class);
             query.setParameter("id", id);
 
