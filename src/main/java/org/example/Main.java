@@ -177,14 +177,12 @@ public class Main {
         System.out.println(product.size() + " product\n");
 
         OVChipkaart ovChipkaart = new OVChipkaart();
-        ovChipkaart.setKaart_nummer(123456);
+        ovChipkaart.setKaart_nummer(12345);
 
         System.out.println("[Test] ProductDAO.findByOVChipkaart() geeft de volgende product:");
-        List<Product> productOVChipkaart = pdao.findByOVChipkaart(ovChipkaart);
+        Product productOVChipkaart = pdao.findByOVChipkaart(ovChipkaart);
 
-        for (Product p : productOVChipkaart) {
-            System.out.println(p);
-        }
+        System.out.println(productOVChipkaart);
     }
 
 

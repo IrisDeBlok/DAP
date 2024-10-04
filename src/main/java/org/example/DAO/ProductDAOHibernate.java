@@ -70,12 +70,12 @@ public class ProductDAOHibernate implements ProductDAO {
     }
 
     @Override
-    public List<Product> findByOVChipkaart(OVChipkaart ovChipkaart) {
+    public Product findByOVChipkaart(OVChipkaart ovChipkaart) {
         try (Session session = sessionFactory.openSession()) {
             String hql = "SELECT p FROM Product p JOIN p.ovChipkaarten o WHERE o.kaart_nummer = :kaartNummer";
             return session.createQuery(hql, Product.class)
                     .setParameter("kaartNummer", ovChipkaart.getKaart_nummer())
-                    .getResultList();
+                    .uniqueResult();
         }
     }
 
