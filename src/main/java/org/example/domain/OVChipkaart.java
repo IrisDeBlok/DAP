@@ -19,8 +19,13 @@ public class OVChipkaart {
     @ManyToOne
     @JoinColumn(name="reiziger_id")
     private Reiziger reiziger;
-    @ManyToMany(mappedBy = "ovChipkaarten")
-    Set<Product> producten;
+    @ManyToMany
+    @JoinTable(
+            name = "ovchip_product",
+            joinColumns = @JoinColumn(name = "kaart_nummer"),
+            inverseJoinColumns = @JoinColumn(name = "product_nummer")
+    )
+    private Set<Product> producten;
 
     public OVChipkaart() {}
     public OVChipkaart(int kaartNummer, Date geldigTot, int klasse, int saldo) {

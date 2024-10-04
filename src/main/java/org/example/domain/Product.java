@@ -15,12 +15,8 @@ public class Product {
     private String beschrijving;
     @Column(name = "prijs")
     private double prijs;
-    @ManyToMany
-    @JoinTable(
-        name = "ovchip_product",
-        joinColumns = @JoinColumn(name = "kaart_nummer"),
-        inverseJoinColumns = @JoinColumn(name = "product_nummer"))
-    Set<OVChipkaart> ovChipkaarten;
+    @ManyToMany(mappedBy = "producten")
+    private Set<OVChipkaart> ovChipkaarten;
 
     public Product() {}
     public Product(int productNummer, String naam, String beschrijving, double prijs) {

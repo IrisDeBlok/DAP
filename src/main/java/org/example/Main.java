@@ -151,10 +151,13 @@ public class Main {
         product = pdao.findAll();
         System.out.println(product.size() + " product\n");
 
-        System.out.println("[Test] ProductDAO.findByOVChipkaart() geeft de volgende product:");
-        List<OVChipkaart> productOVChipkaart = pdao.findByOVChipkaart(1);
+        OVChipkaart ovChipkaart = new OVChipkaart();
+        ovChipkaart.setKaart_nummer(123456);
 
-        for (OVChipkaart p : productOVChipkaart) {
+        System.out.println("[Test] ProductDAO.findByOVChipkaart() geeft de volgende product:");
+        List<Product> productOVChipkaart = pdao.findByOVChipkaart(ovChipkaart);
+
+        for (Product p : productOVChipkaart) {
             System.out.println(p);
         }
     }
