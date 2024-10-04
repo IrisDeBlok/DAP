@@ -1,13 +1,13 @@
 package org.example;
 
-import org.example.DAO.AdresDAOPsql;
-import org.example.DAO.OVChipkaartDAOPsql;
-import org.example.DAO.ReizigerDAOsql;
+import org.example.DAO.*;
 import org.example.domain.Adres;
 import org.example.domain.OVChipkaart;
+import org.example.domain.Product;
 import org.example.domain.Reiziger;
 import org.example.domain.interfaces.AdresDAO;
 import org.example.domain.interfaces.OVChipkaartDAO;
+import org.example.domain.interfaces.ProductDAO;
 import org.example.domain.interfaces.ReizigerDAO;
 
 import java.sql.*;
@@ -26,11 +26,12 @@ public class Main {
         testReiziger();
         testAdres();
         testOV_chipkaart();
+        testProduct();
         closeConnection(c);
     }
 
     private static void testReiziger() throws SQLException {
-        ReizigerDAO rdao = new ReizigerDAOsql();
+        ReizigerDAO rdao = new ReizigerDAOPsql();
         System.out.println("\n---------- Test ReizigerDAO -------------");
 
         List<Reiziger> reizigers = rdao.findAll();
@@ -59,6 +60,17 @@ public class Main {
         reizigers = rdao.findAll();
         System.out.println(reizigers.size() + " reizigers\n");
 
+        System.out.println("[Test] ReizigerDAO.findById() geeft de volgende reiziger:");
+        Reiziger foundReiziger = rdao.findById(1L);
+
+        System.out.println(foundReiziger);
+
+        System.out.println("[Test] ReizigerDAO.findByGbDatum() geeft de volgende reizigers:");
+        List<Reiziger> foundReizigers = rdao.findByGbDatum(java.sql.Date.valueOf("1968-07-19"));
+
+        for(Reiziger r : foundReizigers) {
+            System.out.println(r);
+        }
     }
 
     public static void testAdres() throws SQLException {
@@ -89,6 +101,13 @@ public class Main {
         adao.delete(delete);
         adres = adao.findAll();
         System.out.println(adres.size() + " adres\n");
+
+        Reiziger reiziger = new Reiziger(2L, null, null, null , java.sql.Date.valueOf("1999-08-07"));
+
+        System.out.println("[Test] AdresDAO.findByReiziger() geeft de volgende adressen:");
+        Adres adressen = adao.findByReiziger(reiziger);
+
+        System.out.println(adressen);
     }
 
     public static void testOV_chipkaart() throws SQLException {
@@ -119,6 +138,51 @@ public class Main {
         ovdao.delete(delete);
         ovchipkaart = ovdao.findAll();
         System.out.println(ovchipkaart.size() + " ovchipkaart\n");
+
+        Reiziger reiziger = new Reiziger(6L, null, null, null , java.sql.Date.valueOf("1999-08-07"));
+
+        System.out.println("[Test] OVChipkaartDAO.findByReiziger() geeft de volgende producten:");
+        OVChipkaart foundChipkaarten = ovdao.findByReiziger(reiziger);
+
+        System.out.println(foundChipkaarten);
+    }
+
+    public static void testProduct() throws SQLException {
+        ProductDAO pdao = new ProductDAOPsql();
+        System.out.println("\n---------- Test ProductDAO -------------");
+
+        List<Product> product = pdao.findAll();
+        System.out.println("[Test] ProductDAO.findAll() geeft de volgende product:");
+        for (Product p : product) {
+            System.out.println(p);
+        }
+        System.out.println();
+
+        Product save = new Product(123456, "pen", "Met een pen kan je op papier schrijven", 1.50);
+        System.out.print("[Test] Eerst " + product.size() + " product, na ProductDAO.save() ");
+        pdao.save(save);
+        product = pdao.findAll();
+        System.out.println(product.size() + " product\n");
+
+        Product update = new Product(123456, "potlood", "Met een potlood kan je op papier schrijven", 0.50);
+        System.out.print("[Test] Eerst " + product.size() + " product, na ProductDAO.update() ");
+        pdao.update(update);
+        product = pdao.findAll();
+        System.out.println(product.size() + " product\n");
+
+        Product delete = new Product(123456, "potlood", "Met een potlood kan je op papier schrijven", 0.50);
+        System.out.print("[Test] Eerst " + product.size() + " product, na ProductDAO.delete() ");
+        pdao.delete(delete);
+        product = pdao.findAll();
+        System.out.println(product.size() + " product\n");
+
+        OVChipkaart ovChipkaart = new OVChipkaart();
+        ovChipkaart.setKaartNummer(12345);
+
+        System.out.println("[Test] ProductDAO.findByOVChipkaart() geeft de volgende product:");
+        Product productOVChipkaart = pdao.findByOVChipkaart(ovChipkaart);
+
+        System.out.println(productOVChipkaart);
     }
 
 

@@ -10,7 +10,7 @@ public interface ReizigerDAO {
     boolean save(Reiziger reiziger) throws SQLException;
     boolean update(Reiziger reiziger) throws SQLException ;
     boolean delete(Reiziger reiziger) throws SQLException ;
-    Reiziger findById(int id) throws SQLException ;
+    Reiziger findById(long id) throws SQLException ;
     List<Reiziger> findByGbDatum(Date date) throws SQLException ;
     List<Reiziger> findAll() throws SQLException ;
 }

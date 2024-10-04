@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
 
-public class ReizigerDAOsql implements ReizigerDAO {
+public class ReizigerDAOPsql implements ReizigerDAO {
     Connection c = null;
     PreparedStatement pstmt = null;
     ResultSet rs = null;
@@ -124,13 +124,13 @@ public class ReizigerDAOsql implements ReizigerDAO {
     }
 
     @Override
-    public Reiziger findById(int id) throws SQLException  {
+    public Reiziger findById(long id) throws SQLException  {
         Connection c = getConnection();
         String query = "SELECT * FROM reiziger WHERE reiziger_id = ?";
         pstmt = c.prepareStatement(query);
         c.setAutoCommit(false);
 
-        pstmt.setInt(1, id);
+        pstmt.setLong(1, id);
         rs = pstmt.executeQuery();
 
         if (rs.next()) {

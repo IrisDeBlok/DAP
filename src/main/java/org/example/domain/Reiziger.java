@@ -6,7 +6,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 
 public class Reiziger {
-    private Long id;
+    private long id;
     private String voorletters;
     private String tussenvoegsel;
     private String achternaam;
@@ -14,7 +14,7 @@ public class Reiziger {
     private Adres adres;
 
     public Reiziger() {}
-    public Reiziger(Long id, String voorletters, String tussenvoegsel, String achternaam, Date geboortedatum) {
+    public Reiziger(long id, String voorletters, String tussenvoegsel, String achternaam, Date geboortedatum) {
         this.id = id;
         this.voorletters = voorletters;
         this.tussenvoegsel = tussenvoegsel;
@@ -22,7 +22,7 @@ public class Reiziger {
         this.geboortedatum = geboortedatum;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
