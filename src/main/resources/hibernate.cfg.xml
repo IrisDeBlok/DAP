@@ -24,5 +24,6 @@
         <mapping class="org.example.domain.Reiziger"/>
         <mapping class="org.example.domain.Adres"/>
         <mapping class="org.example.domain.OVChipkaart"/>
+        <mapping class="org.example.domain.Product"/>
     </session-factory>
 </hibernate-configuration>

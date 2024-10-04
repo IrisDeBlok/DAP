@@ -3,7 +3,6 @@ package org.example.domain.interfaces;
 import org.example.domain.Adres;
 import org.example.domain.Reiziger;
 
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 

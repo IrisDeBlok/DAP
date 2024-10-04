@@ -2,6 +2,7 @@ package org.example.domain;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "ov_chipkaart")
@@ -18,7 +19,8 @@ public class OVChipkaart {
     @ManyToOne
     @JoinColumn(name="reiziger_id")
     private Reiziger reiziger;
-
+    @ManyToMany(mappedBy = "ovChipkaarten")
+    Set<Product> producten;
 
     public OVChipkaart() {}
     public OVChipkaart(int kaartNummer, Date geldigTot, int klasse, int saldo) {

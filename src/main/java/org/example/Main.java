@@ -1,14 +1,13 @@
 package org.example;
 
-import org.example.DAO.AdresDAOHibernate;
-import org.example.DAO.AdresDAOPsql;
-import org.example.DAO.OVChipkaartDAOHibernate;
-import org.example.DAO.ReizigerDAOHibernate;
+import org.example.DAO.*;
 import org.example.domain.Adres;
 import org.example.domain.OVChipkaart;
+import org.example.domain.Product;
 import org.example.domain.Reiziger;
 import org.example.domain.interfaces.AdresDAO;
 import org.example.domain.interfaces.OVChipkaartDAO;
+import org.example.domain.interfaces.ProductDAO;
 import org.example.domain.interfaces.ReizigerDAO;
 
 import java.sql.*;
@@ -27,6 +26,7 @@ public class Main {
         testReiziger();
         testAdres();
         testOV_chipkaart();
+        testProduct();
         closeConnection(c);
     }
 
@@ -120,6 +120,43 @@ public class Main {
         ovdao.delete(delete);
         ovchipkaart = ovdao.findAll();
         System.out.println(ovchipkaart.size() + " ovchipkaart\n");
+    }
+
+    public static void testProduct() throws SQLException {
+        ProductDAO pdao = new ProductDAOHibernate();
+        System.out.println("\n---------- Test ProductDAO -------------");
+
+        List<Product> product = pdao.findAll();
+        System.out.println("[Test] ProductDAO.findAll() geeft de volgende product:");
+        for (Product p : product) {
+            System.out.println(p);
+        }
+        System.out.println();
+
+        Product save = new Product(123456, "pen", "Met een pen kan je op papier schrijven", 1.50);
+        System.out.print("[Test] Eerst " + product.size() + " product, na ProductDAO.save() ");
+        pdao.save(save);
+        product = pdao.findAll();
+        System.out.println(product.size() + " product\n");
+
+        Product update = new Product(123456, "potlood", "Met een potlood kan je op papier schrijven", 0.50);
+        System.out.print("[Test] Eerst " + product.size() + " product, na ProductDAO.update() ");
+        pdao.update(update);
+        product = pdao.findAll();
+        System.out.println(product.size() + " product\n");
+
+        Product delete = new Product(123456, "potlood", "Met een potlood kan je op papier schrijven", 0.50);
+        System.out.print("[Test] Eerst " + product.size() + " product, na ProductDAO.delete() ");
+        pdao.delete(delete);
+        product = pdao.findAll();
+        System.out.println(product.size() + " product\n");
+
+        System.out.println("[Test] ProductDAO.findByOVChipkaart() geeft de volgende product:");
+        List<OVChipkaart> productOVChipkaart = pdao.findByOVChipkaart(1);
+
+        for (OVChipkaart p : productOVChipkaart) {
+            System.out.println(p);
+        }
     }
 
 
