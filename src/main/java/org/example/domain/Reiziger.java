@@ -79,14 +79,6 @@ public class Reiziger {
 
     @Override
     public String toString() {
-        AdresDAOPsql adresDao = new AdresDAOPsql();
-        Adres adres = null;
-        try {
-            adres = adresDao.findByReiziger(this);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
         return String.format("#%d %s%s %s, geb. %s",
                 reiziger_id,
                 voorletters,
