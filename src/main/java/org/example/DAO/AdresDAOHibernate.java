@@ -2,7 +2,7 @@ package org.example.DAO;
 
 import org.example.domain.Adres;
 import org.example.domain.Reiziger;
-import org.example.domain.interfaces.AdresDAO;
+import org.example.DAO.interfaces.AdresDAO;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;

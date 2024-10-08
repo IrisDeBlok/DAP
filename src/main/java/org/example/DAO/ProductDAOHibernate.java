@@ -2,7 +2,7 @@ package org.example.DAO;
 
 import org.example.domain.OVChipkaart;
 import org.example.domain.Product;
-import org.example.domain.interfaces.ProductDAO;
+import org.example.DAO.interfaces.ProductDAO;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.SessionFactory;

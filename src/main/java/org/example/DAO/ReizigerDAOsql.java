@@ -1,7 +1,7 @@
 package org.example.DAO;
 
 import org.example.domain.Reiziger;
-import org.example.domain.interfaces.ReizigerDAO;
+import org.example.DAO.interfaces.ReizigerDAO;
 
 import java.sql.*;
 import java.util.ArrayList;

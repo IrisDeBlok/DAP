@@ -1,4 +1,4 @@
-package org.example.domain.interfaces;
+package org.example.DAO.interfaces;
 
 import org.example.domain.OVChipkaart;
 import org.example.domain.Product;

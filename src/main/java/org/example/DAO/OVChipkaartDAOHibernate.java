@@ -1,9 +1,8 @@
 package org.example.DAO;
 
-import org.example.domain.Adres;
 import org.example.domain.OVChipkaart;
 import org.example.domain.Reiziger;
-import org.example.domain.interfaces.OVChipkaartDAO;
+import org.example.DAO.interfaces.OVChipkaartDAO;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;

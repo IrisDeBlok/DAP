@@ -5,10 +5,10 @@ import org.example.domain.Adres;
 import org.example.domain.OVChipkaart;
 import org.example.domain.Product;
 import org.example.domain.Reiziger;
-import org.example.domain.interfaces.AdresDAO;
-import org.example.domain.interfaces.OVChipkaartDAO;
-import org.example.domain.interfaces.ProductDAO;
-import org.example.domain.interfaces.ReizigerDAO;
+import org.example.DAO.interfaces.AdresDAO;
+import org.example.DAO.interfaces.OVChipkaartDAO;
+import org.example.DAO.interfaces.ProductDAO;
+import org.example.DAO.interfaces.ReizigerDAO;
 
 import java.sql.*;
 import java.util.List;
