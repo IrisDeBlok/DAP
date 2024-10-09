@@ -5,10 +5,10 @@ import org.example.domain.Adres;
 import org.example.domain.OVChipkaart;
 import org.example.domain.Product;
 import org.example.domain.Reiziger;
-import org.example.domain.interfaces.AdresDAO;
-import org.example.domain.interfaces.OVChipkaartDAO;
-import org.example.domain.interfaces.ProductDAO;
-import org.example.domain.interfaces.ReizigerDAO;
+import org.example.DAO.interfaces.AdresDAO;
+import org.example.DAO.interfaces.OVChipkaartDAO;
+import org.example.DAO.interfaces.ProductDAO;
+import org.example.DAO.interfaces.ReizigerDAO;
 
 import java.sql.*;
 import java.util.List;
@@ -41,20 +41,23 @@ public class Main {
         }
         System.out.println();
 
+        Adres adres = new Adres(6L, "4000XM", "58A", "Oudenoord", "Utrecht", null);
+
+
         String gbdatum = "1981-03-14";
-        Reiziger save = new Reiziger(77L, "S", "", "Boers", java.sql.Date.valueOf(gbdatum));
+        Reiziger save = new Reiziger(77L, "S", "", "Boers", java.sql.Date.valueOf(gbdatum), adres);
         System.out.print("[Test] Eerst " + reizigers.size() + " reizigers, na ReizigerDAO.save() ");
         rdao.save(save);
         reizigers = rdao.findAll();
         System.out.println(reizigers.size() + " reizigers\n");
 
-        Reiziger update = new Reiziger(77L, "A", "", "Donk", java.sql.Date.valueOf(gbdatum));
+        Reiziger update = new Reiziger(77L, "A", "", "Donk", java.sql.Date.valueOf(gbdatum), adres);
         System.out.print("[Test] Eerst " + reizigers.size() + " reizigers, na ReizigerDAO.update() ");
         rdao.update(update);
         reizigers = rdao.findAll();
         System.out.println(reizigers.size() + " reizigers\n");
 
-        Reiziger delete = new Reiziger(77L, null, null, null, java.sql.Date.valueOf(gbdatum));
+        Reiziger delete = new Reiziger(77L, null, null, null, java.sql.Date.valueOf(gbdatum), adres);
         System.out.print("[Test] Eerst " + reizigers.size() + " reizigers, na ReizigerDAO.delete() ");
         rdao.delete(delete);
         reizigers = rdao.findAll();
@@ -83,26 +86,26 @@ public class Main {
             System.out.println(a);
         }
         System.out.println();
+        Reiziger reiziger = new Reiziger(6L, "P", null, "Vogel" , java.sql.Date.valueOf("1999-08-07"), null);
 
-        Adres save = new Adres(5L, "4000XM", "58A", "Oudenoord", "Utrecht");
+
+        Adres save = new Adres(6L, "4000XM", "58A", "Oudenoord", "Utrecht", reiziger);
         System.out.print("[Test] Eerst " + adres.size() + " adres, na AdresDAO.save() ");
         adao.save(save);
         adres = adao.findAll();
         System.out.println(adres.size() + " adres\n");
 
-        Adres update = new Adres(5L, "4000XM", "58A", "Nijenoord", "Utrecht");
+        Adres update = new Adres(5L, "4000XM", "58A", "Nijenoord", "Utrecht", reiziger);
         System.out.print("[Test] Eerst " + adres.size() + " adres, na AdresDAO.update() ");
         adao.update(update);
         adres = adao.findAll();
         System.out.println(adres.size() + " adres\n");
 
-        Adres delete = new Adres(5L, null, null, null, null);
+        Adres delete = new Adres(6L, null, null, null, null, reiziger);
         System.out.print("[Test] Eerst " + adres.size() + " adres, na AdresDAO.delete() ");
         adao.delete(delete);
         adres = adao.findAll();
         System.out.println(adres.size() + " adres\n");
-
-        Reiziger reiziger = new Reiziger(2L, null, null, null , java.sql.Date.valueOf("1999-08-07"));
 
         System.out.println("[Test] AdresDAO.findByReiziger() geeft de volgende adressen:");
         Adres adressen = adao.findByReiziger(reiziger);
@@ -121,25 +124,27 @@ public class Main {
         }
         System.out.println();
 
-        OVChipkaart save = new OVChipkaart(654321, java.sql.Date.valueOf("2027-07-01"), 2, 9);
+        Reiziger existingReiziger = new Reiziger(6L, "P", null, "Vogel" , java.sql.Date.valueOf("1999-08-07"), null);
+
+        OVChipkaart save = new OVChipkaart(654321, java.sql.Date.valueOf("2027-07-01"), 2, 9, existingReiziger);
         System.out.print("[Test] Eerst " + ovchipkaart.size() + " ovchipkaart, na OVChipkaartDAO.save() ");
         ovdao.save(save);
         ovchipkaart = ovdao.findAll();
         System.out.println(ovchipkaart.size() + " ovchipkaart\n");
 
-        OVChipkaart update = new OVChipkaart(654321, java.sql.Date.valueOf("2027-07-01"), 1, 21);
+        OVChipkaart update = new OVChipkaart(654321, java.sql.Date.valueOf("2027-07-01"), 1, 21, existingReiziger);
         System.out.print("[Test] Eerst " + ovchipkaart.size() + " ovchipkaart, na OVChipkaartDAO.update() ");
         ovdao.update(update);
         ovchipkaart = ovdao.findAll();
         System.out.println(ovchipkaart.size() + " ovchipkaart\n");
 
-        OVChipkaart delete = new OVChipkaart(654321, java.sql.Date.valueOf("2027-07-01"), 1, 21);
+        OVChipkaart delete = new OVChipkaart(654321, java.sql.Date.valueOf("2027-07-01"), 1, 21, existingReiziger);
         System.out.print("[Test] Eerst " + ovchipkaart.size() + " ovchipkaart, na OVChipkaartDAO.delete() ");
         ovdao.delete(delete);
         ovchipkaart = ovdao.findAll();
         System.out.println(ovchipkaart.size() + " ovchipkaart\n");
 
-        Reiziger reiziger = new Reiziger(6L, null, null, null , java.sql.Date.valueOf("1999-08-07"));
+        Reiziger reiziger = new Reiziger(6L, null, null, null , java.sql.Date.valueOf("1999-08-07"), null);
 
         System.out.println("[Test] OVChipkaartDAO.findByReiziger() geeft de volgende producten:");
         OVChipkaart foundChipkaarten = ovdao.findByReiziger(reiziger);

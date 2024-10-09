@@ -1,7 +1,7 @@
 package org.example.DAO;
 
 import org.example.domain.Reiziger;
-import org.example.domain.interfaces.ReizigerDAO;
+import org.example.DAO.interfaces.ReizigerDAO;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class ReizigerDAOPsql implements ReizigerDAO {
 
     @Override
     public boolean save(Reiziger reiziger) throws SQLException  {
-        String query = "INSERT INTO reiziger (reiziger_id, voorletters, tussenvoegsel, achternaam, geboortedatum) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO reiziger (reiziger_id, voorletters, tussenvoegsel, achternaam, geboortedatum, adres_id) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection c = getConnection(); PreparedStatement pstmt = c.prepareStatement(query)) {
             c.setAutoCommit(false);
 
@@ -32,6 +32,7 @@ public class ReizigerDAOPsql implements ReizigerDAO {
             pstmt.setString(3, reiziger.getTussenvoegsel());
             pstmt.setString(4, reiziger.getAchternaam());
             pstmt.setDate(5, reiziger.getGeboortedatum());
+            pstmt.setLong(6, reiziger.getAdres().getId());
 
 
             int rowsAffected = pstmt.executeUpdate();

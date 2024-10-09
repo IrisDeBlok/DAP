@@ -14,12 +14,13 @@ public class Reiziger {
     private Adres adres;
 
     public Reiziger() {}
-    public Reiziger(long id, String voorletters, String tussenvoegsel, String achternaam, Date geboortedatum) {
+    public Reiziger(long id, String voorletters, String tussenvoegsel, String achternaam, Date geboortedatum, Adres adres) {
         this.id = id;
         this.voorletters = voorletters;
         this.tussenvoegsel = tussenvoegsel;
         this.achternaam = achternaam;
         this.geboortedatum = geboortedatum;
+        this.adres = adres;
     }
 
     public void setId(long id) {
@@ -62,16 +63,16 @@ public class Reiziger {
         return achternaam;
     }
 
+    public Adres getAdres() {
+        return adres;
+    }
+
+    public void setAdres(Adres adres) {
+        this.adres = adres;
+    }
+
     @Override
     public String toString() {
-        AdresDAOPsql adresDao = new AdresDAOPsql();
-        Adres adres = null;
-        try {
-            adres = adresDao.findByReiziger(this);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
         return String.format("#%d %s%s %s, geb. %s",
                 id,
                 voorletters,

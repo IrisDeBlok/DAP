@@ -1,12 +1,8 @@
 package org.example.DAO;
 
-import org.example.domain.Adres;
 import org.example.domain.OVChipkaart;
 import org.example.domain.Reiziger;
-import org.example.domain.interfaces.OVChipkaartDAO;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.query.Query;
+import org.example.DAO.interfaces.OVChipkaartDAO;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -26,7 +22,7 @@ public class OVChipkaartDAOPsql implements OVChipkaartDAO {
 
     @Override
     public boolean save(OVChipkaart ovChipkaart) throws SQLException {
-        String query = "INSERT INTO ov_chipkaart (kaart_nummer, geldig_tot, klasse, saldo) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO ov_chipkaart (kaart_nummer, geldig_tot, klasse, saldo, reiziger_id) VALUES (?, ?, ?, ?, ?)";
         try (Connection c = getConnection(); PreparedStatement pstmt = c.prepareStatement(query)) {
             c.setAutoCommit(false);
 
@@ -34,6 +30,7 @@ public class OVChipkaartDAOPsql implements OVChipkaartDAO {
             pstmt.setDate(2, ovChipkaart.getGeldigTot());
             pstmt.setInt(3, ovChipkaart.getKlasse());
             pstmt.setInt(4, ovChipkaart.getSaldo());
+            pstmt.setLong(4, ovChipkaart.getReiziger().getId());
 
 
             int rowsAffected = pstmt.executeUpdate();

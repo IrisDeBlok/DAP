@@ -1,13 +1,8 @@
 package org.example.DAO;
 
-import org.example.domain.Adres;
 import org.example.domain.OVChipkaart;
 import org.example.domain.Product;
-import org.example.domain.interfaces.ProductDAO;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
+import org.example.DAO.interfaces.ProductDAO;
 
 import java.sql.*;
 import java.util.ArrayList;

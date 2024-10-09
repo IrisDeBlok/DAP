@@ -1,19 +1,34 @@
 package org.example.domain;
 
+import javax.persistence.*;
+import java.sql.Date;
+
+@Entity(name = "Adres")
+@Table(name = "adres")
 public class Adres {
+    @Id
+    @Column(name = "adres_id")
     private Long id;
+    @Column(name = "postcode")
     private String postcode;
+    @Column(name = "huisnummer")
     private String huisnummer;
+    @Column(name = "straat")
     private String straat;
+    @Column(name = "woonplaats")
     private String woonplaats;
+    @OneToOne(mappedBy = "adres")
+    @JoinColumn(name = "reiziger_id")
+    private Reiziger reiziger;
 
     public Adres() {}
-    public Adres(Long id, String postcode, String huisnummer, String straat, String woonplaats) {
+    public Adres(Long id, String postcode, String huisnummer, String straat, String woonplaats, Reiziger reiziger) {
         this.id = id;
         this.postcode = postcode;
         this.huisnummer = huisnummer;
         this.straat = straat;
         this.woonplaats = woonplaats;
+        this.reiziger = reiziger;
     }
 
     public void setId(Long id) {
@@ -50,6 +65,14 @@ public class Adres {
 
     public String getWoonplaats() {
         return woonplaats;
+    }
+
+    public void setReiziger(Reiziger reiziger) {
+        this.reiziger = reiziger;
+    }
+
+    public Reiziger getReiziger() {
+        return reiziger;
     }
 
     @Override
