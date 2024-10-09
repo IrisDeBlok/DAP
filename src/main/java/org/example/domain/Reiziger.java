@@ -29,12 +29,13 @@ public class Reiziger {
     private Set<OVChipkaart> ov_chipkaart;
 
     public Reiziger() {}
-    public Reiziger(Long id, String voorletters, String tussenvoegsel, String achternaam, Date geboortedatum) {
+    public Reiziger(Long id, String voorletters, String tussenvoegsel, String achternaam, Date geboortedatum, Adres adres) {
         this.reiziger_id = id;
         this.voorletters = voorletters;
         this.tussenvoegsel = tussenvoegsel;
         this.achternaam = achternaam;
         this.geboortedatum = geboortedatum;
+        this.adres = adres;
     }
 
     public void setId(Long id) {
@@ -75,6 +76,14 @@ public class Reiziger {
 
     public String getAchternaam() {
         return achternaam;
+    }
+
+    public void setAdres(Adres adres) {
+        this.adres = adres;
+    }
+
+    public Adres getAdres() {
+        return adres;
     }
 
     @Override
